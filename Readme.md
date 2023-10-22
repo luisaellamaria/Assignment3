@@ -171,17 +171,13 @@ Add the following paths to the shell and save it.
    export PATH="$PATH:/path/to/spark-3.5.0-bin-hadoop3/bin"
    export PATH="$PATH:/path/to/spark-3.5.0-bin-hadoop3/sbin"
 ```
-###### On Windows:
 
-Add the following paths to the environment and save it.
-
-```bash 
-   #Apache-spark
-   "/path/to/spark-3.5.0-bin-hadoop3/bin"
-   "/path/to/spark-3.5.0-bin-hadoop3/sbin"
-```
 3. Check the Spark-Shell working
-   run ```spark-shell``` in the terminal/shell
+   run ```spark-shell``` in the terminal/shell.
+   Note: go to the folder: usr/local/spark/bin and run it there!!!!
+   ```bash 
+   cd /usr/local/spark/bin
+   ```
 
 it should give you a link where spark UI is hosted, example,  ht`<span>`tp://MasterIP:4040 and it will allow you to interact with it using scala. To exit from the shell enter ``:quit`` .
 
@@ -189,9 +185,19 @@ Please go ahead and look at the UI through a web browser on your local machine. 
 
 ![initial spark UI](https://github.com/Interactions-HSG/BCS-DS-Asignments/blob/0167674a989b4b03ec36ab54dd804da90a66b547/Assignment3/spark_init_ui.jpg)
 
+Command to get IP address:
+```bash
+ipconfig getifaddr en0
+```
+
 ## Task 1
 1. Run the application from tasks folder
 ###### On MacOS:
+
+First run the command:
+```bash
+export PATH=$PATH:/usr/local/spark/bin/
+```
 
 ```bash
 ./gradlew build
