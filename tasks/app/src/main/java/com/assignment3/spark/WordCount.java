@@ -31,6 +31,8 @@ public class WordCount {
     public static void main(String[] args) {
         String textFilePath = "input/pigs.txt";
 
+        System.out.println("Hello World from Spark! :)");
+
         SparkConf conf = new SparkConf().setAppName("WordCountWithSpark").setMaster("local[*]");
         JavaSparkContext sparkContext = new JavaSparkContext(conf);
 
@@ -47,6 +49,19 @@ public class WordCount {
         );
 
         String outputPath = "output";
+
+        // Check and delete the output directory if it exists
+        try {
+            FileSystem fs = FileSystem.get(sparkContext.hadoopConfiguration());
+            Path outputPathDir = new Path(outputPath);
+            if (fs.exists(outputPathDir)) {
+                fs.delete(outputPathDir, true);
+                System.out.println("Existing output directory found and deleted.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error checking/deleting the output directory: " + e);
+        }
+
         reducedCounts.saveAsTextFile(outputPath);
 
         // Consolidate output into a single file.
