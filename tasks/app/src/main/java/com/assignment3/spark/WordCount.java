@@ -54,7 +54,7 @@ public class WordCount {
         String consolidatedOutputPath = outputPath + "/tempConsolidated";
         consolidatedOutput.coalesce(1).saveAsTextFile(consolidatedOutputPath);
 
-        // Rename and move the consolidated file back to the original output directory.
+        // .Rename and move the consolidated file back to the original output directory.
         try {
             FileSystem fs = FileSystem.get(sparkContext.hadoopConfiguration());
             Path oldPath = new Path(consolidatedOutputPath + "/part-00000");
