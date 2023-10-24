@@ -16,12 +16,12 @@ Performance difference is ...
 # Task 3
 
 1. How does Spark optimize its file access compared to the file access in MapReduce?
-> Ans:
+> Ans: In comparison to MapReduce, Spark offers several optimizations. It has an in-memory processing, while it stores data in the RAM rather than writing it to the disk. This leads to much faster data processing like MapReduce. It also uses the DAG to shuffle data, which can lead to large performance gains. In MapReduce the suffling happens between the Map and Reduce stages.
 
 2. In your implementation of WordCount (task1), did you use ReduceByKey or groupByKey method? 
    What does your preferred method do in your implementation? 
    What are the differences between the two methods in Spark?
-> Ans: 
+> Ans: The ReduceByKey method aggregates the counts of each unique word. For each word, a key-value pair is created where the word is the key and the value is 1. The ReducedByKey method sums up these values for each unique word, effectively giving the total cout of occurences for each word in the dataset. 
 
 3. Explain what Resilient Distributed Dataset (RDD) is and the benefits it brings to the classic MapReduce model.
 > Ans: An RDD, which stands for Resilient Distributed Dataset, is a fundamental data structure of Apache Spark. It is an immutable distributed collection of objects that can be processed in parallel. Here are some key points about RDDs:
