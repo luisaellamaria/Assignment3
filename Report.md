@@ -24,7 +24,10 @@ Performance difference is ...
 > Ans: 
 
 3. Explain what Resilient Distributed Dataset (RDD) is and the benefits it brings to the classic MapReduce model.
-> Ans: The Resilient Distributed Dataset (RDD) is 
+> Ans: An RDD, which stands for Resilient Distributed Dataset, is a fundamental data structure of Apache Spark. It is an immutable distributed collection of objects that can be processed in parallel. Here are some key points about RDDs:
+Immutability: Once an RDD is created, it cannot be changed. However, you can apply transformations to an RDD to create a new one.
+Partitioned: Data in RDD is split into multiple partitions, which can be processed on different nodes of a cluster.
+Fault Tolerance: RDDs inherently provide fault tolerance. If a node fails, the RDD can be rebuilt using lineage information. The lineage info contains the series of transformations used to build the RDD.
 
 4. Imagine that you have a large dataset that needs to be processed in parallel. 
    How would you partition the dataset efficiently and keep control over the number of outputs created at the end of the execution?
