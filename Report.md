@@ -2,6 +2,8 @@ Assignment 3
 ------------
 
 # Team Members
+- Emma Kozmér
+- Luisa Ella Mueller
 
 # GitHub link to your repository (if submitting through GitHub)
 
@@ -22,7 +24,7 @@ Performance difference is ...
 > Ans: 
 
 3. Explain what Resilient Distributed Dataset (RDD) is and the benefits it brings to the classic MapReduce model.
-> Ans: 
+> Ans: The Resilient Distributed Dataset (RDD) is 
 
 4. Imagine that you have a large dataset that needs to be processed in parallel. 
    How would you partition the dataset efficiently and keep control over the number of outputs created at the end of the execution?
