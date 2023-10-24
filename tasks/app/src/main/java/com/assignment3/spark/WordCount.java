@@ -15,34 +15,34 @@ public class WordCount {
     {
         @Override
         public Iterator<String> call(String s) {
-            s = s.replaceAll("[^a-zA-Z\\s]", ""); // Remove non-alphabetic characters
-            String[] subStrings = s.toLowerCase().split("\\s+");
-            return Arrays.asList(subStrings).iterator();
+            s = s.replaceAll("[^a-zA-Z\\s]", ""); // remove non-alphabetic characters from the line of the input file
+            String[] subStrings = s.toLowerCase().split("\\s+"); // convert string to lowercase and split into words
+            return Arrays.asList(subStrings).iterator(); // return the needed iterator (it will be used by Spark to process each word separately)
         }
     }
 
     public static void main(String[] args) {
         String textFilePath = "input/pigs.txt"; // input file path
 
-        SparkConf conf = new SparkConf().setAppName("WordCountWithSpark").setMaster("local[*]");
-        JavaSparkContext sparkContext = new JavaSparkContext(conf);
+        SparkConf conf = new SparkConf().setAppName("WordCountWithSpark").setMaster("local[*]"); // create a SparkConf object
+        JavaSparkContext sparkContext = new JavaSparkContext(conf); // create a JavaSparkContext object (allowsto interact with Spark)
 
-        JavaRDD<String> textFile = sparkContext.textFile(textFilePath);
-        JavaRDD<String> words = textFile.flatMap(new Filter());
+        JavaRDD<String> textFile = sparkContext.textFile(textFilePath); // read input to a JavaRDD (resilient distributed dataset) object
+        JavaRDD<String> words = textFile.flatMap(new Filter()); // split each line into words
 
-        // Map each word to a tuple of (word, 1)
+        // map each word to a tuple of (word, 1)
         JavaPairRDD<String, Integer> counts = words.mapToPair(
                 s -> new Tuple2<>(s, 1)
         );
 
-        // Reduce the tuples by key (word) and sum the values (counts)
+        // reduce the tuples by key (word) and sum the values (counts)
         JavaPairRDD<String, Integer> reducedCounts = counts.reduceByKey(
                 Integer::sum
         );
 
         String outputPath = "output"; // output directory path
 
-        // Check and delete the output directory if it exists
+        // check and delete the output directory if it exists
         try {
             FileSystem fs = FileSystem.get(sparkContext.hadoopConfiguration());
             Path outputPathDir = new Path(outputPath);
@@ -54,26 +54,26 @@ public class WordCount {
             System.err.println("Error checking/deleting the output directory: " + e);
         }
 
-        // Save the output to the output directory
-        reducedCounts.saveAsTextFile(outputPath);
+        reducedCounts.saveAsTextFile(outputPath); // save the output to the output directory
 
-        // Consolidate output into a single file.
+        // consolidation of the output into a single file
         JavaRDD<String> consolidatedOutput = sparkContext.textFile(outputPath + "/*");
         String consolidatedOutputPath = outputPath + "/tempConsolidated"; // temporary consolidated output directory path
-        consolidatedOutput.coalesce(1).saveAsTextFile(consolidatedOutputPath);
+        consolidatedOutput.coalesce(1).saveAsTextFile(consolidatedOutputPath); // consolidate new RDD object (consolidatedOutput) into a single file
 
-        // Rename and move the consolidated file back to the original output directory.
+        // rename and move the consolidated file back to the original output directory
         try {
             FileSystem fs = FileSystem.get(sparkContext.hadoopConfiguration());
-            Path oldPath = new Path(consolidatedOutputPath + "/part-00000");
-            Path newPath = new Path(outputPath + "/output-task1.txt");
-            fs.rename(oldPath, newPath);
-            fs.delete(new Path(outputPath + "/_SUCCESS"), true);
-            fs.delete(new Path(outputPath + "/tempConsolidated"), true);
+            Path oldPath = new Path(consolidatedOutputPath + "/part-00000"); // consolidated file
+            Path newPath = new Path(outputPath + "/output-task1.txt"); // new file name
+            fs.rename(oldPath, newPath); // rename the file
+            fs.delete(new Path(outputPath + "/_SUCCESS"), true); // delete the _SUCCESS file
+            fs.delete(new Path(outputPath + "/tempConsolidated"), true); // delete the temporary consolidated output directory
         } catch (Exception e) {
             System.err.println("Error renaming the file: " + e);
         }
 
+        // close the Spark context to release the resources
         sparkContext.stop();
         sparkContext.close();
     }
