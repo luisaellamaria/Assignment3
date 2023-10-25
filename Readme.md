@@ -399,6 +399,11 @@ java --version
 spark-shell
 ```
 
+Use absolut path to direct to spark shell:
+```bash
+/home/emmakozmer/spark-3.5.0-bin-hadoop3/bin/spark-shell
+```
+
 it should give you a link where spark UI is hosted, example,  ht`<span>`tp://url:4040 and it will allow you to interact with it using scala. To exit from the shell enter ``:quit`` .
 
 Please go ahead and look at the UI through a web browser on your local machine. The resulting page would show you job trace in the default tab 'Job'.
