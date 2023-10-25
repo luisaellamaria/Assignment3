@@ -189,6 +189,12 @@ Command to get IP address:
 ```bash
 ipconfig getifaddr en0
 ```
+Command to send from mac to dani:
+From mac terminal without raspi connections:
+```bash
+scp /Users/luisamuller/quicksort.py luisamuller@172.20.10.2:assignment3
+```
+note that 172.20.10.2 is the danis IP address and /Users/luisamuller/quicksort.py is the place where it is stored on my mac.
 
 ## Task 1
 1. Run the application from tasks folder
