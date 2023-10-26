@@ -26,16 +26,13 @@ Performance difference is ...
 > We got the information about the groupByKey() method from here: https://www.linkedin.com/pulse/apache-spark-difference-between-reducebykey-abhijit-sarkhel/
 
 3. Explain what Resilient Distributed Dataset (RDD) is and the benefits it brings to the classic MapReduce model.
-> Ans: An Resilient Distributed Dataset (RDD) is a fundamental data abstraction of Apache Spark. It is an immutable (static) distributed collection of objects that can be processed in parallel. RDDs are used to reduce the usage of external storage systems by leveraging in-memory compute operation storage.
->  Here are some key points about RDDs:
-Immutability: Once an RDD is created, it cannot be changed. However, you can apply transformations to an RDD to create a new one.
-Partitioned: Data in RDD is split into multiple partitions, which can be processed on different nodes of a cluster.
-Fault Tolerance: RDDs inherently provide fault tolerance. If a node fails, the RDD can be rebuilt using lineage information. The lineage info contains the series of transformations used to build the RDD.
+> Ans: A Resilient Distributed Dataset (RDD) is a fundamental data abstraction of Apache Spark. It is an immutable (static) distributed collection of objects. So, the transformation of an existing RDD will result in a new RDD. RDDs can be also distributed across many nodes in a cluster, what enables parallel processing of data. If a partition of an RDD is lost due to a node failure, Spark can recompute that partition from the original data using the lineage information. In comparison, MapReduce achieves fault tolerance through data replication in HDFS. RDDs also leverage in-memory compute operation storage whereas MapReduce stores intermediate data on disk, leading to higher latencies. 
+
 
 4. Imagine that you have a large dataset that needs to be processed in parallel. 
    How would you partition the dataset efficiently and keep control over the number of outputs created at the end of the execution?
-> Ans: 
+> Ans: Since we learned something about Spark in this assignment, it would be a good solution to partition the dataset in the same manner as Spark handles the partition. First, we need to determine in how many partitions we have to split our dataset in terms of the dataset size and available cluster resources. 
 
   If a task is stuck on the Spark cluster due to a network issue that the cluster had during execution, 
   which methods can be used to retry or restart the task execution on a node?
-> Ans: 
+> Ans: The number of retries and the behavior upon failures can be controlled through Spark configurations like spark.task.maxFailures and spark.task.retries.
