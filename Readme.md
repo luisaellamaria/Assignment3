@@ -401,7 +401,7 @@ spark-shell
 
 Use absolut path to direct to spark shell:
 ```bash
-/home/emmakozmer/spark/bin/spark-shell
+/usr/local/spark/bin/spark-shell
 ```
 
 it should give you a link where spark UI is hosted, example,  ht`<span>`tp://url:4040 and it will allow you to interact with it using scala. To exit from the shell enter ``:quit`` .
