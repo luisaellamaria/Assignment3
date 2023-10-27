@@ -23,13 +23,11 @@ public class WordCount {
 
     public static void main(String[] args) {
         //String textFilePath = "input/pigs.txt"; // input file path for task1
-        String textFilePath = "hdfs://172.20.10.3:9000/input/pigs.txt";// input file path for task2
+        String textFilePath = "hdfs://172.20.10.3:9000/sparkApp/input/pigs.txt";// input file path for task2
 
         // conf for task1
         SparkConf conf = new SparkConf().setAppName("WordCountWithSpark").setMaster("local[*]"); // create a SparkConf object
 
-        // conf for task2
-        //SparkConf conf = new SparkConf().setAppName("WordCountWithSpark").setMaster("spark://172.20.10.3:7077");
         JavaSparkContext sparkContext = new JavaSparkContext(conf); // create a JavaSparkContext object (allows to interact with Spark)
 
         JavaRDD<String> textFile = sparkContext.textFile(textFilePath); // read input to a JavaRDD (resilient distributed dataset) object
@@ -46,7 +44,7 @@ public class WordCount {
         );
 
         //String outputPath = "output"; // output directory path task 1
-        String outputPath = "hdfs://172.20.10.3:9000/output"; // output directory path task 2
+        String outputPath = "hdfs://172.20.10.3:9000/sparkApp/output"; // output directory path task 2
 
         // check and delete the output directory if it exists
         try {
